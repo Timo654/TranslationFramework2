@@ -30,7 +30,7 @@ namespace YakuzaGame.Files.CmnBin
 
                     var type = input.ReadUInt64();
 
-                    var subtitles = type == 0 ? ReadLongSubtitles(input) : ReadShortSubtitles(input);
+                    var subtitles = ReadShortSubtitles(input);
 
                     if (subtitles != null)
                     {
@@ -138,7 +138,8 @@ namespace YakuzaGame.Files.CmnBin
                 }
             }
 
-            if (numSubs > 0x1000)
+           //this gets garbage data in Ishin that crashes the game when rebuilt
+           /* if (numSubs > 0x1000)
             {
                 // Probablemente el fichero no sea un cmn.bin
                 return null;
@@ -157,7 +158,7 @@ namespace YakuzaGame.Files.CmnBin
                 {
                     result.Add(subtitle);
                 }
-            }
+            }*/
 
             return result;
         }

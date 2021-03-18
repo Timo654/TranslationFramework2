@@ -107,7 +107,13 @@
             }
             else
             {
-                _currentDDS.SaveToWICFile(0, WIC_FLAGS.NONE, codec, filename);
+                try
+                {
+                    _currentDDS.SaveToWICFile(0, WIC_FLAGS.NONE, codec, filename);
+                }
+                catch (Exception)
+                {
+                }
             }
 
             _currentDDS.Dispose();
