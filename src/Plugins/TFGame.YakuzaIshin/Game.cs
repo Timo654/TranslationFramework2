@@ -332,11 +332,16 @@ namespace TFGame.YakuzaIshin
             var ddsSearch =
                 new GameFileSearch
                 {
-                    RelativePath = @".\hd2",
-                    SearchPattern = "hd2_hankaku.dds",
-                    IsWildcard = false,
-                    RecursiveSearch = false,
-                    FileType = typeof(DDS2File)
+                    RelativePath = @".",
+                    SearchPattern = "*_hankaku.dds",
+                    IsWildcard = true,
+                    RecursiveSearch = true,
+                    FileType = typeof(DDS2File),
+                    Exclusions =
+                    {
+                        "item_hankaku.dds",
+                        "ranking_hankaku.dds"
+                    }
                 };
 
             var fontpar = new GameFileContainer
