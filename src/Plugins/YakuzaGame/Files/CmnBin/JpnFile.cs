@@ -30,7 +30,7 @@ namespace YakuzaGame.Files.CmnBin
 
                     var type = input.ReadUInt64();
 
-                    var subtitles = ReadShortSubtitles(input);
+                    var subtitles = ReadSubtitles(input);
 
                     if (subtitles != null)
                     {
@@ -67,7 +67,7 @@ namespace YakuzaGame.Files.CmnBin
             return result;
         }
 
-        private IList<Subtitle> ReadLongSubtitles(ExtendedBinaryReader input)
+        private IList<Subtitle> ReadSubtitles(ExtendedBinaryReader input)
         {
             var result = new List<Subtitle>();
 
@@ -82,54 +82,12 @@ namespace YakuzaGame.Files.CmnBin
                 return null;
             }
 
-            input.Skip(16); //0x10
+            input.Skip(8); //0x8
 
             for (var i = 0; i < numJapaneseSubs; i++)
             {
                 input.Skip(16); //0x10
 
-                var subtitle = ReadSubtitle(input, 256);
-                subtitle.Language = SubtitleLanguage.Japanese;
-                if (subtitle.Text.Length > 0)
-                {
-                    result.Add(subtitle);
-                }
-            }
-
-            for (var i = 0; i < numEnglishSubs; i++)
-            {
-                input.Skip(16); //0x10
-
-                var subtitle = ReadSubtitle(input, 256);
-                subtitle.Language = SubtitleLanguage.English;
-                if (subtitle.Text.Length > 0)
-                {
-                    result.Add(subtitle);
-                }
-            }
-
-            return result;
-        }
-
-        private IList<Subtitle> ReadShortSubtitles(ExtendedBinaryReader input)
-        {
-            var result = new List<Subtitle>();
-
-            input.Skip(266); //0x010A
-
-            var numSubs = input.ReadInt32();
-            input.Skip(28);
-
-            if (numSubs > 0x1000)
-            {
-                // Probablemente el fichero no sea un cmn.bin
-                return null;
-            }
-
-            for (var i = 0; i < numSubs; i++)
-            {
-                input.Skip(16); //0x10
-
                 var subtitle = ReadSubtitle(input, 128);
                 subtitle.Language = SubtitleLanguage.Japanese;
                 if (subtitle.Text.Length > 0)
@@ -138,21 +96,12 @@ namespace YakuzaGame.Files.CmnBin
                 }
             }
 
-           //this gets garbage data in Ishin that crashes the game when rebuilt
-           /* if (numSubs > 0x1000)
-            {
-                // Probablemente el fichero no sea un cmn.bin
-                return null;
-            }
-
-            numSubs = input.ReadInt32();
-            input.Skip(28); //0x0C
-
-            for (var i = 0; i < numSubs; i++)
+            //this gets garbage data in Ishin that crashes the game when rebuilt
+            /*for (var i = 0; i < numEnglishSubs; i++)
             {
                 input.Skip(16); //0x10
 
-                var subtitle = ReadSubtitle(input, 128);
+                var subtitle = ReadSubtitle(input, 256);
                 subtitle.Language = SubtitleLanguage.English;
                 if (subtitle.Text.Length > 0)
                 {
@@ -162,6 +111,7 @@ namespace YakuzaGame.Files.CmnBin
 
             return result;
         }
+
 
         private Subtitle ReadSubtitle(ExtendedBinaryReader input, int subtitleLength)
         {
