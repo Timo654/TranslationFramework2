@@ -313,56 +313,57 @@ namespace YakuzaGame.Files.Table
 
         public override void ImportPo(string inputFile, bool save = true, bool parallel = true)
         {
-            var dataStream = DataStreamFactory.FromFile(inputFile, FileOpenMode.Read);
-            var binary = new BinaryFormat(dataStream);
-            var binary2Po = new Yarhl.Media.Text.Binary2Po();
-            var po = binary2Po.Convert(binary);
-
-            LoadBeforeImport();
-            foreach (var dataColumn in _data.Columns)
+            using (DataStream dataStream = DataStreamFactory.FromFile(inputFile, FileOpenMode.Read))
             {
-                if (dataColumn.GetType().Name != nameof(Column) && dataColumn.DataCount > 0 && dataColumn.Size > 0)
+                var binary = new BinaryFormat(dataStream);
+                var binary2Po = new Yarhl.Media.Text.Binary2Po();
+                var po = binary2Po.Convert(binary);
+
+                LoadBeforeImport();
+                foreach (var dataColumn in _data.Columns)
                 {
-                    var values = dataColumn.GetUniqueValues();
-                    var newValues = new Dictionary<string, string>();
-                    for (var i = 0; i < values.Count; i++)
+                    if (dataColumn.GetType().Name != nameof(Column) && dataColumn.DataCount > 0 && dataColumn.Size > 0)
                     {
-                        var value = values[i];
-                        var original = value.Item1;
-                        
-                        if (string.IsNullOrEmpty(original))
+                        var values = dataColumn.GetUniqueValues();
+                        var newValues = new Dictionary<string, string>();
+                        for (var i = 0; i < values.Count; i++)
                         {
-                            original = "<!empty>";
+                            var value = values[i];
+                            var original = value.Item1;
+
+                            if (string.IsNullOrEmpty(original))
+                            {
+                                original = "<!empty>";
+                            }
+
+                            var tmp = original.Replace(LineEnding.ShownLineEnding, LineEnding.PoLineEnding);
+                            var entry = po.FindEntry(tmp, $"{dataColumn.Name}_{i}");
+
+                            if (entry == null)
+                            {
+                                newValues.Add($"{dataColumn.Name}|{i}", value.Item1);
+                            }
+                            else if (entry.Text == "<!empty>")
+                            {
+                                newValues.Add($"{dataColumn.Name}|{i}", value.Item1);
+                            }
+                            else
+                            {
+                                var tmp1 = entry.Translated;
+                                tmp1 = string.IsNullOrEmpty(tmp1) ? value.Item1 : tmp1.Replace(LineEnding.PoLineEnding, LineEnding.ShownLineEnding);
+                                newValues.Add($"{dataColumn.Name}|{i}", tmp1);
+                            }
                         }
 
-                        var tmp = original.Replace(LineEnding.ShownLineEnding, LineEnding.PoLineEnding);
-                        var entry = po.FindEntry(tmp, $"{dataColumn.Name}_{i}");
-
-                        if (entry == null)
-                        {
-                            Console.WriteLine("zzz");
-                            newValues.Add($"{dataColumn.Name}|{i}", value.Item1);
-                        }
-                        else if (entry.Text == "<!empty>")
-                        {
-                            newValues.Add($"{dataColumn.Name}|{i}", value.Item1); 
-                        }
-                        else
-                        {
-                            var tmp1 = entry.Translated;
-                            tmp1 = string.IsNullOrEmpty(tmp1) ? value.Item1 : tmp1.Replace(LineEnding.PoLineEnding, LineEnding.ShownLineEnding);
-                            newValues.Add($"{dataColumn.Name}|{i}", tmp1); 
-                        }
+                        dataColumn.SetUniqueValues(newValues, true);
                     }
-
-                    dataColumn.SetUniqueValues(newValues, true);
                 }
             }
-
             if (save && NeedSaving)
-            {
-                SaveChanges();
-            }
+                {
+                    SaveChanges();
+                }
+        
         }
 
         protected override void LoadBeforeImport()

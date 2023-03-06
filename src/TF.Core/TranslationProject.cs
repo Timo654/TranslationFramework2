@@ -209,11 +209,11 @@ namespace TF.Core
             {
                 if (worker.CancellationPending)
                 {
-                    worker.ReportProgress(0, "CANCELADO");
+                    worker.ReportProgress(0, "CANCELLED");
                     throw new UserCancelException();
                 }
 
-                worker.ReportProgress(0, $"Procesando {container.Path}...");
+                worker.ReportProgress(0, $"Processing {container.Path}...");
 
                 if (container.Type == ContainerType.Folder)
                 {
@@ -301,11 +301,11 @@ namespace TF.Core
             {
                 if (worker.CancellationPending)
                 {
-                    worker.ReportProgress(0, "CANCELADO");
+                    worker.ReportProgress(0, "CANCELLED");
                     throw new UserCancelException();
                 }
 
-                worker.ReportProgress(0, $"Procesando {container.Path}...");
+                worker.ReportProgress(0, $"Processing {container.Path}...");
 
                 //foreach (var file in container.Files)
                 Parallel.ForEach(container.Files, file =>
@@ -330,7 +330,7 @@ namespace TF.Core
             {
                 if (worker.CancellationPending)
                 {
-                    worker.ReportProgress(0, "CANCELADO");
+                    worker.ReportProgress(0, "CANCELLED");
                     throw new UserCancelException();
                 }
 
@@ -351,7 +351,7 @@ namespace TF.Core
 
                 string containerPath = Path.GetFullPath(Path.Combine(project.InstallationPath, container.Path));
 
-                worker.ReportProgress(0, $"Procesando {container.Path}...");
+                worker.ReportProgress(0, $"Processing {container.Path}...");
                 if (container.Type == ContainerType.CompressedFile)
                 {
                     if (File.Exists(containerPath))
@@ -532,11 +532,11 @@ namespace TF.Core
             {
                 if (worker.CancellationPending)
                 {
-                    worker.ReportProgress(0, "CANCELADO");
+                    worker.ReportProgress(0, "CANCELLED");
                     throw new UserCancelException();
                 }
 
-                worker.ReportProgress(0, $"Procesando {container.Path}...");
+                worker.ReportProgress(0, $"Processing {container.Path}...");
 
                 foreach (TranslationFile file in container.Files)
                 {
@@ -554,11 +554,11 @@ namespace TF.Core
             {
                 if (worker.CancellationPending)
                 {
-                    worker.ReportProgress(0, "CANCELADO");
+                    worker.ReportProgress(0, "CANCELLED");
                     throw new UserCancelException();
                 }
 
-                worker.ReportProgress(0, $"Procesando {container.Path}...");
+                worker.ReportProgress(0, $"Processing {container.Path}...");
 
                 foreach (TranslationFile file in container.Files)
                 {
@@ -576,11 +576,11 @@ namespace TF.Core
             {
                 if (worker.CancellationPending)
                 {
-                    worker.ReportProgress(0, "CANCELADO");
+                    worker.ReportProgress(0, "CANCELLED");
                     throw new UserCancelException();
                 }
 
-                worker.ReportProgress(0, $"Procesando {container.Path}...");
+                worker.ReportProgress(0, $"Processing {container.Path}...");
 
                 foreach (TranslationFile file in container.Files)
                 {
@@ -626,11 +626,11 @@ namespace TF.Core
             {
                 if (worker.CancellationPending)
                 {
-                    worker.ReportProgress(0, "CANCELADO");
+                    worker.ReportProgress(0, "CANCELLED");
                     throw new UserCancelException();
                 }
 
-                worker.ReportProgress(0, $"Procesando {container.Path}...");
+                worker.ReportProgress(0, $"Processing {container.Path}...");
 
                 foreach (TranslationFile file in container.Files)
                 {
