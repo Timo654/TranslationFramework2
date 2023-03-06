@@ -353,6 +353,7 @@ namespace TF.Core.Files
 
                 void UpdateSubtitleFromPoEntry(PoEntry entry)
                 {
+                    if (entry == null) return;
                     string context = entry.Context;
                     if (!dictionary.TryGetValue(context, out Subtitle subtitle))
                     {

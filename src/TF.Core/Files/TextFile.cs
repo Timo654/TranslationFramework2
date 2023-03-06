@@ -200,10 +200,12 @@ namespace TF.Core.Files
                 tmp = "<!empty>";
             }
             var entry = po.FindEntry(tmp);
-
-            if (!string.IsNullOrEmpty(entry.Translated))
+            if (entry != null)
             {
-                _text.Translation = entry.Translated.Replace(LineEnding.PoLineEnding, LineEnding.ShownLineEnding);
+                if (!string.IsNullOrEmpty(entry.Translated))
+                {
+                    _text.Translation = entry.Translated.Replace(LineEnding.PoLineEnding, LineEnding.ShownLineEnding);
+                }
             }
 
             if (save)
