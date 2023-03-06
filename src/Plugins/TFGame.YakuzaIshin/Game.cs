@@ -361,7 +361,7 @@ namespace TFGame.YakuzaIshin
                 new GameFileSearch
                 {
                     RelativePath = ".",
-                    SearchPattern = "*.imb",
+                    SearchPattern = "*.imb;*.dds",
                     IsWildcard = true,
                     RecursiveSearch = true,
                     FileType = typeof(YakuzaGame.Files.Imb.File)
@@ -559,7 +559,7 @@ namespace TFGame.YakuzaIshin
                     FileType = typeof(Files.Restaurant.File)
                 };
 
-            var disposeStringSearch =
+            /*var disposeStringSearch =
                 new GameFileSearch
                 {
                     RelativePath = ".",
@@ -577,7 +577,7 @@ namespace TFGame.YakuzaIshin
                     IsWildcard = true,
                     RecursiveSearch = true,
                     FileType = typeof(YakuzaGame.Files.Msg.File)
-                };
+                };*/
 
             var wdr_par = new GameFileContainer
             {
@@ -585,9 +585,9 @@ namespace TFGame.YakuzaIshin
                 Type = ContainerType.CompressedFile
             };
 
-            wdr_par.FileSearches.Add(disposeStringSearch);
+            //wdr_par.FileSearches.Add(disposeStringSearch);
             wdr_par.FileSearches.Add(wdr_restaurantSearch);
-            wdr_par.FileSearches.Add(wdr_msgSearch);
+            //wdr_par.FileSearches.Add(wdr_msgSearch);
 
             result.Add(wdr_par);
 
@@ -600,7 +600,7 @@ namespace TFGame.YakuzaIshin
 
             result.AddRange(Get2dpar(path));
             result.Add(GetAlife());
-            result.Add(GetFontpar());
+            /*result.Add(GetFontpar());*/
             result.Add(GetHact());
             result.AddRange(GetMappar(path));
             result.AddRange(GetMinigame());

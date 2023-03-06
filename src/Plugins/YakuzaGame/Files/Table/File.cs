@@ -338,7 +338,12 @@ namespace YakuzaGame.Files.Table
                         var tmp = original.Replace(LineEnding.ShownLineEnding, LineEnding.PoLineEnding);
                         var entry = po.FindEntry(tmp, $"{dataColumn.Name}_{i}");
 
-                        if (entry.Text == "<!empty>")
+                        if (entry == null)
+                        {
+                            Console.WriteLine("zzz");
+                            newValues.Add($"{dataColumn.Name}|{i}", value.Item1);
+                        }
+                        else if (entry.Text == "<!empty>")
                         {
                             newValues.Add($"{dataColumn.Name}|{i}", value.Item1); 
                         }

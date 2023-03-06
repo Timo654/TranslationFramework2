@@ -303,7 +303,7 @@ namespace TF.Core.Files
             
             var po = new Po()
             {
-                Header = new PoHeader(GameName, "dummy@dummy.com", "es-ES")
+                Header = new PoHeader(GameName, "dummy@dummy.com", "en-US")
             };
 
             var subtitles = GetSubtitles();
